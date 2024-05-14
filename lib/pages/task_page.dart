@@ -20,6 +20,8 @@ class _TaskPageState extends State<TaskPage> {
 
   // text controller for taskName
   final TextEditingController taskNameController = TextEditingController();
+  // text controller for taskNote
+  final TextEditingController taskNoteController = TextEditingController();
 
   // create a task
   void createNewTask() {
@@ -42,7 +44,12 @@ class _TaskPageState extends State<TaskPage> {
               const SizedBox(
                 height: 20,
               ),
-              const Text('task description...'),
+              TextField(
+                controller: taskNoteController,
+                decoration: const InputDecoration(
+                  hintText: 'enter the task description...',
+                ),
+              ),
             ],
           ),
         ),
@@ -52,8 +59,10 @@ class _TaskPageState extends State<TaskPage> {
               // close dialog box without savig
               Navigator.pop(context);
 
-              // clear controller
+              // clear taskName controller
               taskNameController.clear();
+              // clear taskNote controller
+              taskNoteController.clear();
             },
             child: const Text('cancel'),
           ),
@@ -61,15 +70,18 @@ class _TaskPageState extends State<TaskPage> {
             onPressed: () {
               // get the new task name
               String newTaskName = taskNameController.text;
+              String newTaskNote = taskNoteController.text;
 
               // save to task db
-              context.read<TaskDatabase>().addTask(newTaskName);
+              context.read<TaskDatabase>().addTask(newTaskName, newTaskNote);
 
               // pop (close) dialog box
               Navigator.pop(context);
 
-              // clear controller
+              // clear taskName controller
               taskNameController.clear();
+              // clear taskNote controller
+              taskNoteController.clear();
             },
             child: const Text('save'),
           ),
@@ -87,6 +99,8 @@ class _TaskPageState extends State<TaskPage> {
   void editTask(Task task) {
     // prefill taskName for task to edit
     taskNameController.text = task.taskName;
+    // prefill taskNote for task to edit
+    taskNoteController.text = task.taskNote;
 
     showDialog(
       context: context,
@@ -104,7 +118,9 @@ class _TaskPageState extends State<TaskPage> {
               const SizedBox(
                 height: 20,
               ),
-              const Text('task description...'),
+              TextField(
+                controller: taskNoteController,
+              ),
             ],
           ),
         ),
@@ -114,23 +130,29 @@ class _TaskPageState extends State<TaskPage> {
               // close dialog box without savig
               Navigator.pop(context);
 
-              // clear controller
+              // clear taskName controller
               taskNameController.clear();
+              // clear taskNote controller
+              taskNoteController.clear();
             },
             child: const Text('cancel'),
           ),
           MaterialButton(
             onPressed: () {
               // save to task db
-              context
-                  .read<TaskDatabase>()
-                  .updateTask(task.id, taskNameController.text);
+              context.read<TaskDatabase>().updateTask(
+                    task.id,
+                    taskNameController.text,
+                    taskNoteController.text,
+                  );
 
               // pop (close) dialog box
               Navigator.pop(context);
 
-              // clear controller
+              // clear taskName controller
               taskNameController.clear();
+              // clear taskNote controller
+              taskNoteController.clear();
             },
             child: const Text('update'),
           ),

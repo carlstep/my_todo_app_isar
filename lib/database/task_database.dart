@@ -21,10 +21,11 @@ class TaskDatabase extends ChangeNotifier {
 
   // CREATE a task and save to db
 
-  Future<void> addTask(String taskName) async {
+  Future<void> addTask(String taskName, String taskNote) async {
     // create new task
     final newTask = Task()
       ..taskName = taskName
+      ..taskNote = taskNote
       ..isComplete = false;
 
     // save newTask to db
@@ -46,7 +47,8 @@ class TaskDatabase extends ChangeNotifier {
   }
 
   // UPDATE or change a task and save to db
-  Future<void> updateTask(int id, String newTaskName) async {
+  Future<void> updateTask(
+      int id, String newTaskName, String newTaskNote) async {
     // get the task from
     final task = await isar.tasks.get(id);
 
@@ -54,6 +56,8 @@ class TaskDatabase extends ChangeNotifier {
       await isar.writeTxn(() async {
         // newTaskName assigned to task.taskName
         task.taskName = newTaskName;
+        // newTaskNote assigned to task.taskNote
+        task.taskNote = newTaskNote;
 
         // save updated task to db
         await isar.tasks.put(task);

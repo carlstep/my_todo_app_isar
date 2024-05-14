@@ -13,6 +13,8 @@ class Task {
   // task name
   late String taskName;
 
+  late String taskNote;
+
   // is task complete
   bool? isComplete;
 }
