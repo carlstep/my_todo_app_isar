@@ -10,11 +10,10 @@ class Task {
   // task id - created by isar
   Id id = Isar.autoIncrement;
 
-  // task name
   late String taskName;
 
   late String taskNote;
 
   // is task complete
-  bool? isComplete;
+  bool isComplete = false;
 }

@@ -5,7 +5,7 @@ import 'package:my_todo_app_isar/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  // initialize task isar database
+  // initialize TaskDatabase
   WidgetsFlutterBinding.ensureInitialized();
   await TaskDatabase.initialize();
 

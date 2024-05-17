@@ -77,7 +77,7 @@ Task _taskDeserialize(
 ) {
   final object = Task();
   object.id = id;
-  object.isComplete = reader.readBoolOrNull(offsets[0]);
+  object.isComplete = reader.readBool(offsets[0]);
   object.taskName = reader.readString(offsets[1]);
   object.taskNote = reader.readString(offsets[2]);
   return object;
@@ -91,7 +91,7 @@ P _taskDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
@@ -241,24 +241,8 @@ extension TaskQueryFilter on QueryBuilder<Task, Task, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Task, Task, QAfterFilterCondition> isCompleteIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'isComplete',
-      ));
-    });
-  }
-
-  QueryBuilder<Task, Task, QAfterFilterCondition> isCompleteIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'isComplete',
-      ));
-    });
-  }
-
   QueryBuilder<Task, Task, QAfterFilterCondition> isCompleteEqualTo(
-      bool? value) {
+      bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isComplete',
@@ -647,7 +631,7 @@ extension TaskQueryProperty on QueryBuilder<Task, Task, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Task, bool?, QQueryOperations> isCompleteProperty() {
+  QueryBuilder<Task, bool, QQueryOperations> isCompleteProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isComplete');
     });

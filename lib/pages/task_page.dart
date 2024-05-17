@@ -166,6 +166,11 @@ class _TaskPageState extends State<TaskPage> {
     context.read<TaskDatabase>().deleteTask(id);
   }
 
+  // toggle checkBox
+  void toggleCheckBox(bool value, int id) {
+    context.read<TaskDatabase>().updateCheckBox(id, value);
+  }
+
   @override
   Widget build(BuildContext context) {
     // task database
@@ -195,6 +200,9 @@ class _TaskPageState extends State<TaskPage> {
                   task: task,
                   deleteFunction: () => deleteTask(task.id),
                   editFunction: () => editTask(task),
+                  isComplete: true,
+                  onChanged: (value) =>
+                      toggleCheckBox(task.isComplete, task.id),
                 );
               },
             ),

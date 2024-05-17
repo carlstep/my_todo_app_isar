@@ -67,8 +67,25 @@ class TaskDatabase extends ChangeNotifier {
     }
   }
 
-  // DELETE a task from db
+  // update Check Box
+  Future<void> updateCheckBox(int id, bool isComplete) async {
+    // find specific task
+    final task = await isar.tasks.get(id);
 
+    if (task != null) {
+      await isar.writeTxn(() async {
+        task.isComplete = !task.isComplete;
+
+        await isar.tasks.put(task);
+      });
+    }
+
+    notifyListeners();
+
+    await fetchTasks();
+  }
+
+  // DELETE a task from db
   Future<void> deleteTask(int id) async {
     // perform delete
     await isar.writeTxn(() async {
